@@ -1,1 +1,4 @@
-import React from 'react';\nexport function Header({ title }: { title: string }) {\n  return <div className=\"p-4 border-b text-lg font-semibold\">{title}</div>;\n}\n
+import React from 'react';
+export function Header({ title }: { title: string }) {
+  return <div className="p-4 border-b text-lg font-semibold">{title}</div>;
+}

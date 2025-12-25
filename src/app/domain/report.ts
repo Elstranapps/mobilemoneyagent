@@ -48,8 +48,16 @@ export function buildMonthReport(txs: Transaction[], month: string): MonthReport
 }
 
 export function toCsv(rows: string[][]): string {
-  return rows.map(r => r.map(cell => {
-    const s = String(cell ?? '');
-    return (s.includes(',') || s.includes('"') || s.includes('\n')) ? `"${s.replace(/"/g,'""')}"` : s;
-  }).join(',')).join('\n');
+  return rows
+    .map(r =>
+      r
+        .map(cell => {
+          const s = String(cell ?? '');
+          const needsQuotes = s.includes(',') || s.includes('"') || s.includes('\n');
+          const escaped = s.replace(/"/g, '""');
+          return needsQuotes ? `"${escaped}"` : escaped;
+        })
+        .join(',')
+    )
+    .join('\n');
 }

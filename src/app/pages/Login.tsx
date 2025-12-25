@@ -1,1 +1,30 @@
-import React, { useState } from 'react';\nimport { Button } from '../components/Button';\nimport { NumericInput } from '../components/NumericInput';\nimport { useAuth } from '../state/auth';\nimport { Header } from '../components/Header';\n\nexport default function Login() {\n  const { requestOtp, verifyOtp, loading } = useAuth();\n  const [phone, setPhone] = useState('');\n  const [otp, setOtp] = useState('');\n  const [stage, setStage] = useState<'phone'|'otp'>('phone');\n\n  async function handleRequest() { await requestOtp(phone); setStage('otp'); }\n  async function handleVerify() { await verifyOtp(phone, otp); }\n\n  return <div className=\"pb-20\">\n    <Header title=\"Login\" />\n    {stage==='phone' ? (\n      <div className=\"p-4 flex flex-col gap-4\">\n        <input placeholder=\"Phone number\" value={phone} onChange={e=>setPhone(e.target.value)} className=\"border rounded px-3 py-2\" />\n        <Button onClick={handleRequest} loading={loading} disabled={!/^\\d{9,15}$/.test(phone)}>Request OTP</Button>\n      </div>\n    ) : (\n      <div className=\"p-4 flex flex-col gap-4\">\n        <NumericInput label=\"Enter OTP\" value={otp} onChange={e=>setOtp(e.target.value)} />\n        <Button onClick={handleVerify} loading={loading} disabled={otp.length<4}>Verify</Button>\n      </div>\n    )}\n  </div>;\n}\n
+import React, { useState } from 'react';
+import { Button } from '../components/Button';
+import { NumericInput } from '../components/NumericInput';
+import { useAuth } from '../state/auth';
+import { Header } from '../components/Header';
+
+export default function Login() {
+  const { requestOtp, verifyOtp, loading } = useAuth();
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
+  const [stage, setStage] = useState<'phone'|'otp'>('phone');
+
+  async function handleRequest() { await requestOtp(phone); setStage('otp'); }
+  async function handleVerify() { await verifyOtp(phone, otp); }
+
+  return <div className="pb-20">
+    <Header title="Login" />
+    {stage==='phone' ? (
+      <div className="p-4 flex flex-col gap-4">
+        <input placeholder="Phone number" value={phone} onChange={e=>setPhone(e.target.value)} className="border rounded px-3 py-2" />
+        <Button onClick={handleRequest} loading={loading} disabled={!/^\\d{9,15}$/.test(phone)}>Request OTP</Button>
+      </div>
+    ) : (
+      <div className="p-4 flex flex-col gap-4">
+        <NumericInput label="Enter OTP" value={otp} onChange={e=>setOtp(e.target.value)} />
+        <Button onClick={handleVerify} loading={loading} disabled={otp.length<4}>Verify</Button>
+      </div>
+    )}
+  </div>;
+}
