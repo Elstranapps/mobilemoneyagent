@@ -43,17 +43,15 @@ export default function NewTransaction() {
     <Header title="New Transaction" />
     <div className="p-4 flex flex-col gap-4">
       <label className="flex gap-3">
-        <button className={`px-3 py-2 rounded border ${type==='cash_in'?'bg-blue-50 border-blue-300':'border-gray-300'}`} onClick={()=>setType('cash_in')}>Cash-in</button>
-        <button className={`px-3 py-2 rounded border ${type==='cash_out'?'bg-blue-50 border-blue-300':'border-gray-300'}`} onClick={()=>setType('cash_out')}>Cash-out</button>
+        <button className={`px-3 py-2 rounded border ${type==='cash_in'?'btn-mtn':'border-gray-300'}`} onClick={()=>setType('cash_in')}>Deposit Money</button>
+        <button className={`px-3 py-2 rounded border ${type==='cash_out'?'btn-airtel':'border-gray-300'}`} onClick={()=>setType('cash_out')}>Withdraw Money</button>
+        <button className={`px-3 py-2 rounded border ${type==='cash_out'?'':'border-gray-300'}`} onClick={()=>setType('cash_out')}>Send Money</button>
       </label>
       <NumericInput label="Amount (UGX)" value={amount} onChange={e=>{ setAmount(e.target.value); updateCommission(e.target.value); }} />
-      <label className="flex flex-col gap-1">
-        <span className="text-sm text-gray-700">Network</span>
-        <select value={network} onChange={e=>setNetwork(e.target.value as any)} className="border rounded px-3 py-2">
-          <option>MTN</option>
-          <option>Airtel</option>
-        </select>
-      </label>
+      <div className="flex gap-2">
+        <button className={`px-3 py-2 border rounded ${network==='MTN' ? 'btn-mtn' : ''}`} onClick={()=>setNetwork('MTN')}>MTN</button>
+        <button className={`px-3 py-2 border rounded ${network==='Airtel' ? 'btn-airtel' : ''}`} onClick={()=>setNetwork('Airtel')}>Airtel</button>
+      </div>
       <div className="text-sm text-gray-600">Estimated commission: UGX {commission.toLocaleString('en-UG')} {agentRate!==null && `(at ${agentRate}% rate)`}</div>
       {error && <div className="text-sm text-red-600">{error}</div>}
       <div className="flex gap-2">

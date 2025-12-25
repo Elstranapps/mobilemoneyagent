@@ -1,5 +1,15 @@
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; background: #f6f7fb; color: #111; }
+:root {
+  --brand-mtn: #ffcb05; /* MTN yellow */
+  --brand-mtn-700: #caa304;
+  --brand-airtel: #ed1c24; /* Airtel red */
+  --brand-airtel-700: #b5161c;
+  --surface: #f6f7fb;
+  --text: #111;
+  --tab-bg: #ffffff;
+  --tab-border: #e5e7eb;
+}
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; background: var(--surface); color: var(--text); }
 button { cursor: pointer; }
 
 /* simple utility fallbacks where Tailwind classes were used */
@@ -56,3 +66,10 @@ input, select { font-size: 1rem; }
 input, select, button { background: #fff; }
 
 nav a { text-decoration: none; }
+
+/* Theming helpers */
+.btn-mtn { background: var(--brand-mtn); color: #1b1b1b; border: 1px solid var(--brand-mtn-700); }
+.btn-airtel { background: var(--brand-airtel); color: #fff; border: 1px solid var(--brand-airtel-700); }
+.btn-rounded { border-radius: 999px; }
+.header-bg { background: linear-gradient(90deg, var(--brand-airtel) 0%, var(--brand-mtn) 100%); color: #111; }
+

@@ -8,13 +8,13 @@ import { Toast } from '../components/Toast';
 
 export default function Summary() {
   const { session } = useAuth();
-  const [data, setData] = useState({ in: 0, out: 0, comm: 0, profit: 0, opening: 0, closing: 0, closed: false });
+  const [data, setData] = useState({ in: 0, out: 0, withdraw: 0, send: 0, comm: 0, profit: 0, opening: 0, closing: 0, closed: false });
   const [toast, setToast] = useState<{kind:'success'|'error'|'info',msg:string}|null>(null);
 
   async function load() {
     if (!session) return;
     const sum = await MockApi.computeDaily(session.agentId);
-    setData({ in: sum.totals.totalCashIn, out: sum.totals.totalCashOut, comm: sum.totals.totalCommission, profit: sum.totals.netProfit, opening: sum.openingFloat, closing: sum.closingFloat, closed: sum.closed });
+    setData({ in: sum.totals.totalCashIn, out: sum.totals.totalCashOut, withdraw: sum.totals.totalWithdraw, send: sum.totals.totalSendMoney, comm: sum.totals.totalCommission, profit: sum.totals.netProfit, opening: sum.openingFloat, closing: sum.closingFloat, closed: sum.closed });
   }
 
   useEffect(() => { void load(); }, [session]);
@@ -34,6 +34,8 @@ export default function Summary() {
         </div>
       </Card>
       <Card><div className="text-sm text-gray-500">Total cash-in</div><div className="text-xl">UGX {fmt(data.in)}</div></Card>
+      <Card><div className="text-sm text-gray-500">Total withdraw</div><div className="text-xl">UGX {fmt(data.withdraw)}</div></Card>
+      <Card><div className="text-sm text-gray-500">Total send money</div><div className="text-xl">UGX {fmt(data.send)}</div></Card>
       <Card><div className="text-sm text-gray-500">Total cash-out</div><div className="text-xl">UGX {fmt(data.out)}</div></Card>
       <Card><div className="text-sm text-gray-500">Total commission</div><div className="text-xl">UGX {fmt(data.comm)}</div></Card>
       <Card><div className="text-sm text-gray-500">Net profit</div><div className="text-xl">UGX {fmt(data.profit)}</div></Card>

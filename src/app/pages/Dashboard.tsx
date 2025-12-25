@@ -28,9 +28,9 @@ export default function Dashboard() {
     <Header title="Dashboard" />
     <OfflineBanner status={status} />
     <div className="p-4 grid gap-3">
-      <Card><div className="text-sm text-gray-500">Current float</div><div className="text-2xl font-semibold">UGX {fmt(totals.float)}</div></Card>
-      <Card><div className="text-sm text-gray-500">Cash on hand</div><div className="text-2xl font-semibold">UGX {fmt(totals.cash)}</div></Card>
-      <Card><div className="text-sm text-gray-500">Today's profit</div><div className="text-2xl font-semibold">UGX {fmt(totals.profit)}</div></Card>
+      <Card><div className="text-sm" style={{color:'#5a4b00'}}>Current float</div><div className="text-2xl font-semibold">UGX {fmt(totals.float)}</div><div style={{height:4, background:'var(--brand-mtn)', borderRadius:2, marginTop:6}}/></Card>
+      <Card><div className="text-sm" style={{color:'#7a1216'}}>Cash on hand</div><div className="text-2xl font-semibold">UGX {fmt(totals.cash)}</div><div style={{height:4, background:'var(--brand-airtel)', borderRadius:2, marginTop:6}}/></Card>
+      <Card><div className="text-sm" style={{color:'#5a4b00'}}>Today's profit</div><div className="text-2xl font-semibold">UGX {fmt(totals.profit)}</div><div style={{height:4, background:'linear-gradient(90deg, var(--brand-airtel), var(--brand-mtn))', borderRadius:2, marginTop:6}}/></Card>
     </div>
     <Tabs />
   </div>;
