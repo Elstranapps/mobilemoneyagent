@@ -50,6 +50,9 @@ button { cursor: pointer; }
 .flex-col { flex-direction: column; }
 .items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
 .text-center { text-align: center; }
 .fixed { position: fixed; }
 .bottom-0 { bottom: 0; }
@@ -71,6 +74,10 @@ nav a { text-decoration: none; }
 /* Theming helpers */
 .btn-mtn { background: var(--brand-mtn); color: #1b1b1b; border: 1px solid var(--brand-mtn-700); }
 .btn-airtel { background: var(--brand-airtel); color: #fff; border: 1px solid var(--brand-airtel-700); }
+.btn-send { background: #f97316; color: #fff; border: 1px solid #ea580c; }
 .btn-rounded { border-radius: 999px; }
+.btn-action { padding: 0.9rem 1.25rem; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); font-weight: 600; transition: box-shadow 120ms ease, transform 80ms ease, opacity 120ms ease; display: inline-flex; align-items: center; justify-content: center; }
+.btn-action:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.12); opacity: 0.96; }
+.btn-action:active { transform: translateY(1px); opacity: 0.92; }
 .header-bg { background: linear-gradient(90deg, var(--brand-airtel) 0%, var(--brand-mtn) 100%); color: #111; }
 

@@ -80,10 +80,12 @@ export default function Dashboard() {
       </Card>
 
       {/* Quick actions */}
-      <div className="flex gap-2 mt-1">
-        <Link to="/transaction/new?type=cash_in" className="px-3 py-2 border rounded btn-mtn">➕ Deposit</Link>
-        <Link to="/transaction/new?type=cash_out" className="px-3 py-2 border rounded btn-airtel">➖ Withdraw</Link>
-        <Link to="/transaction/new?type=send_money" className="px-3 py-2 border rounded btn-airtel">📤 Send</Link>
+      <div className="flex justify-center" style={{ width: '100%' }}>
+        <div className="flex gap-4 mt-3" style={{ width: 'fit-content' }}>
+          <Link to="/transaction/new?type=cash_in" className="btn-action btn-mtn" style={{ textDecoration: 'none' }}>Deposit</Link>
+          <Link to="/transaction/new?type=cash_out" className="btn-action btn-airtel" style={{ textDecoration: 'none' }}>Withdraw</Link>
+          <Link to="/transaction/new?type=send_money" className="btn-action btn-send" style={{ textDecoration: 'none' }}>Send</Link>
+        </div>
       </div>
 
       {/* Empty state guidance */}
