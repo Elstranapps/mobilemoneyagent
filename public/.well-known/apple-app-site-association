@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["TEAMID.BUNDLEID"],
+        "components": [{ "/": "/*" }]
+      }
+    ]
+  }
+}
