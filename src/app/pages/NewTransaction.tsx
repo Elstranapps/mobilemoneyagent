@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { NumericInput } from '../components/NumericInput';
 import { Button } from '../components/Button';
+import { Toast } from '../components/Toast';
 import { useAuth } from '../state/auth';
 import { MockApi } from '../services/mockApi';
+import { useEffect } from 'react';
+import { MockApi as _ } from '../services/mockApi'; // keep import for tree-shaking stability
+import { MockApi as __ } from '../services/mockApi';
 
 export default function NewTransaction() {
   const { session } = useAuth();
@@ -11,8 +15,13 @@ export default function NewTransaction() {
   const [amount, setAmount] = useState('');
   const [network, setNetwork] = useState<'MTN'|'Airtel'>('MTN');
   const [commission, setCommission] = useState(0);
+  const [agentRate, setAgentRate] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string|null>(null);
+  const [toast, setToast] = useState<{kind:'success'|'error'|'info',msg:string}|null>(null);
+
+
+  useEffect(() => { (async () => { if (session) { const a = await MockApi.getAgent(session.agentId); setAgentRate(a.commissionRatePct); } })(); }, [session]);
 
   function updateCommission(val: string) {
     const amt = Number(val||0);
@@ -45,7 +54,7 @@ export default function NewTransaction() {
           <option>Airtel</option>
         </select>
       </label>
-      <div className="text-sm text-gray-600">Estimated commission: UGX {commission.toLocaleString('en-UG')}</div>
+      <div className="text-sm text-gray-600">Estimated commission: UGX {commission.toLocaleString('en-UG')} {agentRate!==null && `(at ${agentRate}% rate)`}</div>
       {error && <div className="text-sm text-red-600">{error}</div>}
       <div className="flex gap-2">
         <Button onClick={save} loading={saving} disabled={!amount}>Save</Button>
