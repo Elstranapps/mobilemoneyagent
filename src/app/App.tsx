@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NewTransaction from './pages/NewTransaction';
 import FloatStatus from './pages/FloatStatus';
 import Summary from './pages/Summary';
+import Reports from './pages/Reports';
 import History from './pages/History';
 import Settings from './pages/Settings';
 import Onboarding from './pages/Onboarding';
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/float" element={<Guarded><FloatStatus /></Guarded>} />
             <Route path="/summary" element={<Guarded><Summary /></Guarded>} />
             <Route path="/history" element={<Guarded><History /></Guarded>} />
+          <Route path="/reports" element={<Guarded><Reports /></Guarded>} />
             <Route path="/settings" element={<Guarded><Settings /></Guarded>} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
