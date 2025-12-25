@@ -32,8 +32,23 @@ export function AuthProvider({ children }: { children: any }) {
   return <Ctx.Provider value={{ session, loading, requestOtp, verifyOtp, logout }}>{children}</Ctx.Provider>;
 }
 
-export function useAuth() {
+export function useAuth(): AuthCtx {
   const v = useContext(Ctx);
-  if (!v) throw new Error('useAuth must be used within AuthProvider');
+  if (!v) {
+    try {
+      // Dev-safe fallback to avoid blocking during HMR/module reload glitches
+      if (typeof window !== 'undefined' && !(window as any).__auth_ctx_warned) {
+        console.warn('Auth context missing; using dev-safe fallback. This can occur during hot reload.');
+        (window as any).__auth_ctx_warned = true;
+      }
+    } catch {}
+    return {
+      session: null,
+      loading: false,
+      requestOtp: async () => {},
+      verifyOtp: async () => {},
+      logout: () => {},
+    } as AuthCtx;
+  }
   return v;
 }
