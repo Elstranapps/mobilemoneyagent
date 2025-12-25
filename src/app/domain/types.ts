@@ -1,6 +1,6 @@
 // Domain models for Mobile Money Agent
 export type Network = 'MTN' | 'Airtel' | 'Both';
-export type TxType = 'cash_in' | 'cash_out';
+export type TxType = 'cash_in' | 'cash_out' | 'send_money';
 
 export interface Agent {
   id: string;
@@ -9,6 +9,9 @@ export interface Agent {
   network: Network;
   openingFloat: number; // UGX - persists, can be overridden
   commissionRatePct: number; // e.g., 0.5 means 0.5%
+  mtnVerified?: boolean; // one-time network verification
+  airtelVerified?: boolean; // one-time network verification
+  onboarded?: boolean; // completed one-time setup
   createdAt: string; // ISO
 }
 
@@ -25,7 +28,9 @@ export interface Transaction {
 
 export interface DailySummaryTotals {
   totalCashIn: number;
-  totalCashOut: number;
+  totalCashOut: number; // totalWithdraw + totalSendMoney (for backwards-compat)
+  totalWithdraw: number;
+  totalSendMoney: number;
   totalCommission: number;
   netProfit: number;
 }

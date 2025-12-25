@@ -23,9 +23,12 @@ export const MockApi = {
     await delay(200);
     // Create agent if not exists
     let agents = Storage.getAgents();
-    let agent = agents.find(a => a.phone === phone);
+    // Normalize stored phone to canonical form
+    const { normalizeUgPhone } = await import('../services/phone');
+    const norm = normalizeUgPhone(phone) || phone;
+    let agent = agents.find(a => a.phone === norm);
     if (!agent) {
-      agent = { id: uuid4(), phone, name: '', network: 'Both', openingFloat: 0, commissionRatePct: 0.5, createdAt: new Date().toISOString() } as Agent;
+      agent = { id: uuid4(), phone: norm, name: '', network: 'Both', openingFloat: 0, commissionRatePct: 0.5, mtnVerified: false, airtelVerified: false, onboarded: false, createdAt: new Date().toISOString() } as Agent;
       agents.push(agent);
       Storage.saveAgents(agents);
     }
@@ -50,8 +53,17 @@ export const MockApi = {
     return next;
   },
 
-  async saveOnboarding(agentId: string, data: Partial<Pick<Agent,'name'|'network'|'openingFloat'|'commissionRatePct'>>) {
+  async saveOnboarding(agentId: string, data: Partial<Pick<Agent,'name'|'network'|'openingFloat'|'commissionRatePct'|'mtnVerified'|'airtelVerified'|'onboarded'>>) {
     return this.updateAgent(agentId, data);
+  },
+
+  async verifyNetwork(agentId: string, which: 'MTN'|'Airtel'): Promise<Agent> {
+    await delay(400);
+    const a = Storage.getAgent(agentId);
+    if (!a) throw new Error('Agent not found');
+    if (which === 'MTN') a.mtnVerified = true; else a.airtelVerified = true;
+    Storage.saveAgent(a);
+    return a;
   },
 
   async listTransactions(agentId: string): Promise<Transaction[]> {
@@ -72,8 +84,8 @@ export const MockApi = {
     const deltaOut = dayTxs.filter(t => t.type==='cash_out').reduce((s,t)=>s+t.amount,0);
     const currentFloat = agent.openingFloat + deltaIn - deltaOut;
 
-    if (type === 'cash_out' && amount > currentFloat) {
-      throw new Error('Insufficient float for cash-out');
+    if ((type === 'cash_out' || type === 'send_money') && amount > currentFloat) {
+      throw new Error('Insufficient float for this operation');
     }
 
     const commission = Math.round((amount * agent.commissionRatePct) / 100);
