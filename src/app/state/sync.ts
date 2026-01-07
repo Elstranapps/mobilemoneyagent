@@ -1,1 +1,16 @@
-import { useEffect, useState } from 'react';\nimport { SyncStatus } from '../domain/types';\n\nexport function useSyncStatus() {\n  const [status, setStatus] = useState<SyncStatus>({ isOnline: navigator.onLine, hasUnsynced: false, lastSyncAt: undefined });\n\n  useEffect(() => {\n    function on() { setStatus(s => ({ ...s, isOnline: true })); }\n    function off() { setStatus(s => ({ ...s, isOnline: false })); }\n    window.addEventListener('online', on);\n    window.addEventListener('offline', off);\n    return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); };\n  }, []);\n\n  return { status, markUnsynced(has: boolean) { setStatus(s => ({ ...s, hasUnsynced: has })); }, markSynced() { setStatus(s => ({ ...s, hasUnsynced: false, lastSyncAt: new Date().toISOString() })); } };\n}\n
+import { useEffect, useState } from 'react';
+import { SyncStatus } from '../domain/types';
+
+export function useSyncStatus() {
+  const [status, setStatus] = useState<SyncStatus>({ isOnline: navigator.onLine, hasUnsynced: false, lastSyncAt: undefined });
+
+  useEffect(() => {
+    function on() { setStatus(s => ({ ...s, isOnline: true })); }
+    function off() { setStatus(s => ({ ...s, isOnline: false })); }
+    window.addEventListener('online', on);
+    window.addEventListener('offline', off);
+    return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); };
+  }, []);
+
+  return { status, markUnsynced(has: boolean) { setStatus(s => ({ ...s, hasUnsynced: has })); }, markSynced() { setStatus(s => ({ ...s, hasUnsynced: false, lastSyncAt: new Date().toISOString() })); } };
+}

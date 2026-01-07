@@ -1,0 +1,1 @@
+import React from 'react';\nexport function Loading() { return <div className=\"p-4 text-center text-gray-600\">Loading…</div>; }\n
